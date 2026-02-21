@@ -46,13 +46,14 @@ Pas le même ouvrage     187
 ```
 
 ### Résultats sur la récupération des auteurs de la BNF
-Sur la totalité tous les ouvrages pour laquelle n'a pas rien renvoyé ("Non trouvé", 1286 ont reçu les auteurs identifiés, 197 ont manqué d'au moins un de leurs auteurs, 31 des autres ont eu un de leurs auteurs placé en para-auteur et les autres ont reçus des auteurs en plus.
+Sur la totalité tous les ouvrages pour laquelle n'a pas rien renvoyé ("Non trouvé", 1334 ont reçu les auteurs identifiés, 149 ont eu un de leurs auteurs absents ou remplacé, 31 des autres ont eu un de leurs auteurs placé en para-auteur et les autres ont reçus des auteurs en plus.
 On remarque que les ouvrages correctement identfiés (la majorité d'entre eux) sont en grande partie corrects sur les auteurs qu'ils ont reçu, mais que les autres ont quand même des taux moyens.
-```--- Sur tous les textes trouvés : 1723 textes
+```
+--- Sur tous les textes trouvés : 1723 textes
 predict_auteur_verif
-ok                             1286
+ok                             1334
 Auteur ajouté                   209
-Auteur absent                   197
+Auteur absent                   149
 Auteur placé en para-auteur      31
  
 predict_paraauteur_verif
@@ -62,9 +63,9 @@ Para-auteur absent     116
  
 --- Sur les textes correctement identifiés : 1304 textes
 predict_auteur_verif
-ok                             1068
+ok                             1105
 Auteur ajouté                   133
-Auteur absent                    80
+Auteur absent                    43
 Auteur placé en para-auteur      23
  
 predict_paraauteur_verif
@@ -74,8 +75,8 @@ Para-auteur absent      86
  
 --- Sur les textes hors BNF (potentiellement identifiés quand même) : 232 textes
 predict_auteur_verif
-ok                             108
-Auteur absent                   66
+ok                             109
+Auteur absent                   65
 Auteur ajouté                   57
 Auteur placé en para-auteur      1
  
@@ -86,8 +87,8 @@ Para-auteur absent     16
  
 --- Sur les textes liés à un autre de la BNF que celui prévu : 187 textes
 predict_auteur_verif
-ok                             110
-Auteur absent                   51
+ok                             120
+Auteur absent                   41
 Auteur ajouté                   19
 Auteur placé en para-auteur      7
  
@@ -106,3 +107,8 @@ Ainsi, lorsque le date ou l'auteur ne sont pas évoqués, une recherche qui les 
 De la même façon, des variations de noms non-répertoriées suffisent à faire échouer la recherche. Il peut s'agit de variations d'orthographe comme l'auteur Combault/Gombault, ou le titre Thèmes français/Thèmes françois, ou alors de différence d'abbréviation entre les deux bases de données, entre S. A. R. et Son Altesse Royale, ou l'évocation ou non d'un titre d'une personne au sein du titre d'un ouvrage.
 
 ### Analyse des résultats de la récupération des auteurs
+Quand on regarde les auteurs absents ou remplacés, on constate qu'une partie non-négligeable de ces auteurs ne sont pas absents ou remplacés mais que ce sont leurs codes BNF qui semblent avoir changés depuis que les annotations humaines ont été faites. Cela augmente ainsi artificiellement le pourcentage d'erreur de ce côté. Un autre ensemble sont aussi les ouvrages collectifs dont seule une partie des auteurs a été identifiée par la BNF. Une dernière partie enfin semble être due à des ouvrages mal identifiés mais ils sont minimes. 
+
+### Conclusion générale
+Le recours à la base de données de la BNF a permis de désambiguïser une grande partie des données mais il a aussi mis en valeur l'intérêt que pourrait avoir BiblioBase pour améliorer les données de la BNF lorsqu'elles sont parcelaires. 
+Fort désormais d'une grande base de données d'auteur, de nouvelles améliorations pourraient encore être effectuées. Il pourrait être possible d'utiliser en interne une distance de Levenshtein afin d'attribuer des auteurs aussi aux ouvrages qui n'ont pas pu être trouvés ou de rajouter les auteurs qui étaient absents des notices BNF sur leurs ouvrages. 
