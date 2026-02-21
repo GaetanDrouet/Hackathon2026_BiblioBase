@@ -28,7 +28,7 @@ Cependant, parce que le prénom est souvent abbrégé ou absent dans l'une ou l'
 Cependant la publication peut parfois être encore autre, ou même n'être pas indiquée, nous autorisons donc une seconde recherche sans si la première n'a rien donné.
 
 ## Résumé des recherches de l'algorithme
-Notre algorithme émet donc deux recherches : 
+Notre algorithme émet donc deux recherches parmi les textes imprimés : 
 * la première recherche le titre entier, la date approximative, les auteurs par leur nom, l'imprimeur/libraire et à travers toute la notice les mots du sous-titre ;
 * si la première est vide, la seconde répète la même recherche mais sans l'imprimeur/libraire.
 À partir du résultat, les auteurs ou autres auteurs sont extraits du premier texte de la recherche qui est logiquement le plus probable.
@@ -46,113 +46,63 @@ Pas le même ouvrage     187
 ```
 
 ### Résultats sur la récupération des auteurs de la BNF
-Sur la totalité des ouvrages, 1091 ont reçu les auteurs identifiés et 306 la même absence d'auteurs. 358 n'ont pas eu d'auteurs alors qu'ils devraient en avoir (mais il s'agit d'une réaction logique dans le cas où l'ouvrage n'a pas été trouvé). Les autres cas se partagent entre l'absence de certains auteurs mais pas d'autres, l'ajout d'auteur ou, très rarement, le placement des auteurs en autres auteur au lieu d'auteur.
-On remarque que les ouvrages correctement identfiés (la majorité d'entre eux) sont à presque 90% corrects sur les auteurs ou l'absence d'auteur.
-```
---- Sur tous les textes : 2107 textes
+Sur la totalité tous les ouvrages pour laquelle n'a pas rien renvoyé ("Non trouvé", 1286 ont reçu les auteurs identifiés, 197 ont manqué d'au moins un de leurs auteurs, 31 des autres ont eu un de leurs auteurs placé en para-auteur et les autres ont reçus des auteurs en plus.
+On remarque que les ouvrages correctement identfiés (la majorité d'entre eux) sont en grande partie corrects sur les auteurs qu'ils ont reçu, mais que les autres ont quand même des taux moyens.
+```--- Sur tous les textes trouvés : 1723 textes
 predict_auteur_verif
-ok!                                               1091
-Auteur absent                                      358
-ok(vide)                                           306
-Auteur ajouté                                      145
-Auteur absent ; Auteur ajouté                      101
-Auteur présent ; Auteur ajouté                      52
-Auteur placé en para-auteur                         26
-Auteur présent ; Auteur absent                      13
-Auteur présent ; Auteur absent ; Auteur ajouté       7
-Auteur placé en para-auteur ; Auteur ajouté          3
-Auteur placé en para-auteur ; Auteur absent          3
-Auteur présent ; Auteur placé en para-auteur         2
-Name: count, dtype: int64
+ok                             1286
+Auteur ajouté                   209
+Auteur absent                   197
+Auteur placé en para-auteur      31
  
 predict_paraauteur_verif
-ok(vide)                                                                                       1653
-Para-auteur ajouté                                                                              207
-Para-auteur absent                                                                              103
-ok!                                                                                              75
-Para-auteur absent ; Para-auteur ajouté                                                          22
-Para-auteur placé en auteur                                                                      15
-Para-auteur présent ; Para-auteur ajouté                                                         13
-Para-auteur présent ; Para-auteur absent ; Para-auteur ajouté                                     7
-Para-auteur placé en auteur ; Para-auteur absent                                                  5
-Para-auteur présent ; Para-auteur absent                                                          4
-Para-auteur placé en auteur ; Para-auteur ajouté                                                  2
-Para-auteur présent ; Para-auteur placé en auteur ; Para-auteur absent ; Para-auteur ajouté       1
-Name: count, dtype: int64
+ok                    1370
+Para-auteur ajouté     237
+Para-auteur absent     116
  
 --- Sur les textes correctement identifiés : 1304 textes
 predict_auteur_verif
-ok!                                               949
-ok(vide)                                          129
-Auteur ajouté                                      75
-Auteur absent ; Auteur ajouté                      53
-Auteur présent ; Auteur ajouté                     48
-Auteur placé en para-auteur                        21
-Auteur absent                                      15
-Auteur présent ; Auteur absent                     10
-Auteur placé en para-auteur ; Auteur ajouté         2
-Auteur présent ; Auteur absent ; Auteur ajouté      2
+ok                             1068
+Auteur ajouté                   133
+Auteur absent                    80
+Auteur placé en para-auteur      23
  
 predict_paraauteur_verif
-ok(vide)                                                                                       992
-Para-auteur ajouté                                                                             137
-ok!                                                                                             64
-Para-auteur absent                                                                              56
-Para-auteur absent ; Para-auteur ajouté                                                         16
-Para-auteur placé en auteur                                                                     15
-Para-auteur présent ; Para-auteur ajouté                                                        10
-Para-auteur présent ; Para-auteur absent ; Para-auteur ajouté                                    7
-Para-auteur présent ; Para-auteur absent                                                         3
-Para-auteur placé en auteur ; Para-auteur absent                                                 3
-Para-auteur présent ; Para-auteur placé en auteur ; Para-auteur absent ; Para-auteur ajouté      1
+ok                    1056
+Para-auteur ajouté     162
+Para-auteur absent      86
  
 --- Sur les textes hors BNF (potentiellement identifiés quand même) : 232 textes
 predict_auteur_verif
-ok(vide)                                          59
-Auteur ajouté                                     55
-ok!                                               49
-Auteur absent                                     46
-Auteur absent ; Auteur ajouté                     14
-Auteur placé en para-auteur ; Auteur absent        3
-Auteur présent ; Auteur ajouté                     2
-Auteur présent ; Auteur absent                     2
-Auteur présent ; Auteur placé en para-auteur       1
-Auteur présent ; Auteur absent ; Auteur ajouté     1
+ok                             108
+Auteur absent                   66
+Auteur ajouté                   57
+Auteur placé en para-auteur      1
  
 predict_paraauteur_verif
-ok(vide)                                   180
-Para-auteur ajouté                          33
-Para-auteur absent                          15
-ok!                                          3
-Para-auteur absent ; Para-auteur ajouté      1
+ok                    183
+Para-auteur ajouté     33
+Para-auteur absent     16
  
 --- Sur les textes liés à un autre de la BNF que celui prévu : 187 textes
 predict_auteur_verif
-ok!                                               93
-Auteur absent ; Auteur ajouté                     34
-ok(vide)                                          19
-Auteur ajouté                                     15
-Auteur absent                                     12
-Auteur placé en para-auteur                        5
-Auteur présent ; Auteur absent ; Auteur ajouté     4
-Auteur présent ; Auteur ajouté                     2
-Auteur placé en para-auteur ; Auteur ajouté        1
-Auteur présent ; Auteur absent                     1
-Auteur présent ; Auteur placé en para-auteur       1
+ok                             110
+Auteur absent                   51
+Auteur ajouté                   19
+Auteur placé en para-auteur      7
  
 predict_paraauteur_verif
-ok(vide)                                            123
-Para-auteur ajouté                                   37
-ok!                                                   8
-Para-auteur absent                                    6
-Para-auteur absent ; Para-auteur ajouté               5
-Para-auteur présent ; Para-auteur ajouté              3
-Para-auteur placé en auteur ; Para-auteur absent      2
-Para-auteur placé en auteur ; Para-auteur ajouté      2
-Para-auteur présent ; Para-auteur absent              1
+ok                    131
+Para-auteur ajouté     42
+Para-auteur absent     14
 ```
 
 ## Analyse des résultats
 ### Analyse des résultats de la recherche d'ouvrage
+L'analyse de la présence de textes qui ne sont pas celui attendu tend à montrer que ces textes sont généralement d'autres éditions, d'autres versions ou d'autres volumnes du même ouvrage. Cela est renforcé par la non-interopérabilité entre les nombres en lettres (quatrième), en chiffres arabes (4e) et en chiffres romains (IVe) sur la BNF. Ainsi, quand le "IVe volume" est recherché, le "3e volume" et le "4e volume" sont aussi proche l'un et de l'autre de ce qui est demandé. 
+
+Lorsque le texte n'est pas du tout trouvé, cela est généralement pas l'absence d'un des champs dans la notice de la BNF ou d'une différence d'écriture (la BNF étant très sensible aux variations).
+Ainsi, lorsque le date ou l'auteur ne sont pas évoqués, une recherche qui les utilise ne pourra pas aboutir. Il pourrait être possible de faire des recherches sans ces champs mais le risque d'erreur serait trop grand. La possibilité d'obtenir des erreurs, en particulier pour les ouvrages qui ne sont pas répertoriés dans le BNF, rendrait les gains minimes.
+De la même façon, des variations de noms non-répertoriées suffisent à faire échouer la recherche. Il peut s'agit de variations d'orthographe comme l'auteur Combault/Gombault, ou le titre Thèmes français/Thèmes françois, ou alors de différence d'abbréviation entre les deux bases de données, entre S. A. R. et Son Altesse Royale, ou l'évocation ou non d'un titre d'une personne au sein du titre d'un ouvrage.
 
 ### Analyse des résultats de la récupération des auteurs
